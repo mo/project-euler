@@ -1,7 +1,6 @@
 #
 # This is a ridiculously slow solution. Also the cache is pointless (stupid)
-# as-is, it would most likely be VERY much smarter to cache the number or divisors for
-# each number (any number) and then use these cached values inside the divisors() function
+# as-is.
 #
 # Running this code until the answer is printed takes between 8 and 18 hours.
 #
