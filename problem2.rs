@@ -1,20 +1,13 @@
 fn main() {
-    println("1: 1");
-    println("2: 2");
-    let mut second_last = 1;
-    let mut last = 2;
-    let mut i = 3;
+    let mut prevprev = 1;
+    let mut prev = 2;
     let mut sum = 2;
-    let mut current = 0;
-    while (current < 4000000) {
-        current = second_last + last;
-        println!("{}: {}", i, current);
-        if (current % 2 == 0) {
-            sum += current;
-        }
-        second_last = last;
-        last = current;
-        i += 1;
+    loop {
+        let current = prevprev + prev;
+        if (current % 2 == 0) { sum += current; }
+        if (current >= 4000000) { break; }
+        prevprev = prev;
+        prev = current;
     }
     println!("sum == {}", sum);
 }
