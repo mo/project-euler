@@ -4,8 +4,8 @@ fn main() {
     let mut sum = 2;
     loop {
         let current = prevprev + prev;
-        if (current % 2 == 0) { sum += current; }
         if (current >= 4000000) { break; }
+        if (current % 2 == 0) { sum += current; }
         prevprev = prev;
         prev = current;
     }
