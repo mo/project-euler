@@ -1,0 +1,2 @@
+go test
+go run problem3.go
