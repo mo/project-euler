@@ -1,32 +1,35 @@
-use std::num;
-use std::vec;
+/* Run tests with;
+ *
+ *   rustc --test problem3.rs ; ./problem3
+ *
+ */
 
 #[test]
 fn correct_answer() {
     let factors = prime_factors(600851475143);
     let expected_answer = 6857;
-    let computed_answer = *factors.last();
+    let computed_answer: int = *factors.last().unwrap();
     assert_eq!(computed_answer, expected_answer);
 }
 
-fn prime_factors(mut n: int) -> ~[int] {
+fn prime_factors(mut n: int) -> Vec<int> {
     let mut divisor = 2;
-    let mut factors: ~[int] = ~[];
-    while divisor <= num::sqrt(n as float) as int {
+    let mut factors: Vec<int> = Vec::new();
+    while divisor <= (n as f64).sqrt() as int {
         if n%divisor == 0 {
-            factors = vec::append_one(factors, divisor);
+            factors.push(divisor);
             n = n / divisor;
             divisor = 2;
         } else {
             divisor += 1;
         }
     }
-    factors = vec::append_one(factors, n);
+    factors.push(n);
     return factors;
 }
 
 fn main() {
     let factors = prime_factors(600851475143);
-    let largest_prime_factor = *factors.last();
+    let largest_prime_factor = factors.last().unwrap();
     println!("largest prime factor == {}", largest_prime_factor);
 }
