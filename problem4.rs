@@ -1,7 +1,7 @@
 use std::num;
 
 fn is_palindrome(num: int) -> bool {
-    let num_str = num.to_str();
+    let num_str = num.to_string();
     let num_str_len = num_str.len();
     for i in range(0, num_str_len/2) {
         if num_str.as_slice().char_at(i) != num_str.as_slice().char_at(num_str_len-i-1) {

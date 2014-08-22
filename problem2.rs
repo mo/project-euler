@@ -1,7 +1,7 @@
 fn main() {
-    let mut prevprev = 1;
-    let mut prev = 2;
-    let mut sum = 2;
+    let mut prevprev = 1i;
+    let mut prev = 2i;
+    let mut sum = 2i;
     loop {
         let current = prevprev + prev;
         if current >= 4000000 { break; }
