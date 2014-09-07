@@ -4,14 +4,6 @@
  *
  */
 
-#[test]
-fn correct_answer() {
-    let factors = prime_factors(600851475143);
-    let expected_answer = 6857;
-    let computed_answer: int = *factors.last().unwrap();
-    assert_eq!(computed_answer, expected_answer);
-}
-
 fn prime_factors(mut n: int) -> Vec<int> {
     let mut divisor = 2;
     let mut factors: Vec<int> = Vec::new();
@@ -28,8 +20,21 @@ fn prime_factors(mut n: int) -> Vec<int> {
     return factors;
 }
 
-fn main() {
+pub fn main() {
     let factors = prime_factors(600851475143);
     let largest_prime_factor = factors.last().unwrap();
     println!("largest prime factor == {}", largest_prime_factor);
+}
+
+#[cfg(test)]
+mod test {
+    use super::prime_factors;
+
+    #[test]
+    fn correct_answer() {
+        let factors = prime_factors(600851475143);
+        let expected_answer = 6857;
+        let computed_answer: int = *factors.last().unwrap();
+        assert_eq!(computed_answer, expected_answer);
+    }
 }
