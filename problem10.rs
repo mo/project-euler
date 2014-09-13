@@ -123,8 +123,61 @@ fn sum_of_primes_below3(limit: int) -> int {
     return sum
 }
 
+#[allow(dead_code)]
+fn sum_of_primes_below4(limit: int) -> int {
+    if limit <= 2 {
+        return 0;
+    }
+    if limit <= 3 {
+        return 2;
+    }
+    if limit <= 5 {
+        return 5;
+    }
+    let mut prime_counters = vec![(2i, 1i), (3i, 1i)];
+    let mut current_num = 5i;
+    let mut sum = 5i;
+    while current_num < limit {
+
+        let mut seen_divisor = false;
+        for pc in prime_counters.mut_iter() {
+            let (prime, offset) = *pc;
+            let new_offset = (offset+4) % prime;
+            if new_offset == 0 {
+                seen_divisor = true;
+            }
+            *pc = (prime, new_offset)
+        }
+        if !seen_divisor {
+            prime_counters.push((current_num, 0));
+            sum += current_num;
+        }
+
+        current_num += 2;
+        if current_num < limit {
+            seen_divisor = false;
+            for pc in prime_counters.mut_iter() {
+                let (prime, offset) = *pc;
+                let new_offset = (offset+2) % prime;
+                if new_offset == 0 {
+                    seen_divisor = true;
+                }
+                *pc = (prime, new_offset)
+            }
+            if !seen_divisor {
+                prime_counters.push((current_num, 0));
+                sum += current_num;
+            }
+        }
+
+        current_num += 4;
+        println!("{}% done", 100*current_num/limit);
+    }
+    return sum
+}
+
 fn sum_of_primes_below_(limit: int) -> int {
-    return sum_of_primes_below3(limit);
+    return sum_of_primes_below4(limit);
 }
 
 pub fn main() {
