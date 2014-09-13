@@ -95,8 +95,36 @@ fn sum_of_primes_below2(limit: int) -> int {
     return prime_sum;
 }
 
+#[allow(dead_code)]
+fn sum_of_primes_below3(limit: int) -> int {
+    if limit <= 2 {
+        return 0;
+    }
+    let mut prime_counters = vec![(2i, 0i)];
+    let mut current_num = 3i;
+    let mut sum = 2i;
+    while current_num < limit {
+        let mut seen_divisor = false;
+        for pc in prime_counters.mut_iter() {
+            let (prime, offset) = *pc;
+            let new_offset = (offset+1) % prime;
+            if new_offset == 0 {
+                seen_divisor = true;
+            }
+            *pc = (prime, new_offset)
+        }
+        if !seen_divisor {
+            prime_counters.push((current_num, 0));
+            sum += current_num;
+        }
+        current_num += 1;
+        println!("{}% done", 100*current_num/limit);
+    }
+    return sum
+}
+
 fn sum_of_primes_below_(limit: int) -> int {
-    return sum_of_primes_below2(limit);
+    return sum_of_primes_below3(limit);
 }
 
 pub fn main() {
@@ -105,7 +133,7 @@ pub fn main() {
 
 #[cfg(test)]
 mod test {
-    use super::{is_prime_, sum_of_primes_below};
+    use super::{is_prime_, sum_of_primes_below_};
 
     #[test]
     fn test_is_prime() {
@@ -144,12 +172,23 @@ mod test {
 
     #[test]
     fn correct_example() {
-        assert_eq!(sum_of_primes_below(10), 17);
+        assert_eq!(sum_of_primes_below_(10), 17);
+    }
+
+    #[test]
+    fn test_sum_of_primes_below_() {
+        assert_eq!(sum_of_primes_below_(2), 0);
+        assert_eq!(sum_of_primes_below_(3), 2);
+        assert_eq!(sum_of_primes_below_(4), 5);
+        assert_eq!(sum_of_primes_below_(5), 5);
+        assert_eq!(sum_of_primes_below_(6), 10);
+        assert_eq!(sum_of_primes_below_(7), 10);
+        assert_eq!(sum_of_primes_below_(8), 17);
     }
 
     #[test]
     fn correct_answer() {
-        assert_eq!(sum_of_primes_below(2000000), 142913828922);
+        assert_eq!(sum_of_primes_below_(2000000), 142913828922);
     }
 
     // wget -q -O - http://primes.utm.edu/lists/small/1000.txt | cut-first-n-lines 4 | cut-last-n-lines 1 | tr -s  ' ' | cut -c2- | trim-trailing-whitespace | sed 's/ /, /g' | sed 's/$/,/'
