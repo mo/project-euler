@@ -105,7 +105,7 @@ fn sum_of_primes_below3(limit: int) -> int {
     let mut sum = 2i;
     while current_num < limit {
         let mut seen_divisor = false;
-        for pc in prime_counters.mut_iter() {
+        for pc in prime_counters.iter_mut() {
             let (prime, offset) = *pc;
             let new_offset = (offset+1) % prime;
             if new_offset == 0 {
@@ -140,7 +140,7 @@ fn sum_of_primes_below4(limit: int) -> int {
     while current_num < limit {
 
         let mut seen_divisor = false;
-        for pc in prime_counters.mut_iter() {
+        for pc in prime_counters.iter_mut() {
             let (prime, offset) = *pc;
             let new_offset = (offset+4) % prime;
             if new_offset == 0 {
@@ -156,7 +156,7 @@ fn sum_of_primes_below4(limit: int) -> int {
         current_num += 2;
         if current_num < limit {
             seen_divisor = false;
-            for pc in prime_counters.mut_iter() {
+            for pc in prime_counters.iter_mut() {
                 let (prime, offset) = *pc;
                 let new_offset = (offset+2) % prime;
                 if new_offset == 0 {
