@@ -4,6 +4,8 @@ name = "euler"
 version = "0.0.1"
 authors = ["Martin Olsson <martin@minimum.se>"]
 
+[dependencies.num]
+git = "https://github.com/rust-lang/num.git"
 
 [[bin]]
 name = "problem1"
@@ -19,3 +21,6 @@ name = "problem4"
 
 [[bin]]
 name = "problem10"
+
+[[bin]]
+name = "problem20"

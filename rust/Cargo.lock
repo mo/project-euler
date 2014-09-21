@@ -1,4 +1,12 @@
 [root]
 name = "euler"
 version = "0.0.1"
+dependencies = [
+ "num 0.0.1 (git+https://github.com/rust-lang/num.git#900a6a2fd21ceb2154af99d91f43ee744a1e9250)",
+]
+
+[[package]]
+name = "num"
+version = "0.0.1"
+source = "git+https://github.com/rust-lang/num.git#900a6a2fd21ceb2154af99d91f43ee744a1e9250"
 
