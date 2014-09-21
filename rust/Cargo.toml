@@ -1,0 +1,21 @@
+[package]
+
+name = "euler"
+version = "0.0.1"
+authors = ["Martin Olsson <martin@minimum.se>"]
+
+
+[[bin]]
+name = "problem1"
+
+[[bin]]
+name = "problem2"
+
+[[bin]]
+name = "problem3"
+
+[[bin]]
+name = "problem4"
+
+[[bin]]
+name = "problem10"
