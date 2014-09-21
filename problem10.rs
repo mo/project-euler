@@ -176,8 +176,29 @@ fn sum_of_primes_below4(limit: int) -> int {
     return sum
 }
 
-fn sum_of_primes_below_(limit: int) -> int {
-    return sum_of_primes_below4(limit);
+#[allow(dead_code)]
+fn sum_of_primes_below5(limit: uint) -> uint {
+    let mut is_prime = Vec::from_elem(limit, true);
+    let sqrt_num = (limit as f64).sqrt() as uint;
+    for n in range(2u, sqrt_num + 1) {
+        if is_prime[n] {
+            for composite in std::iter::range_step(n*n, limit, n) {
+                // rust will allow "is_prime[composite] = false" later on
+                *is_prime.get_mut(composite) = false;
+            }
+        }
+    }
+    let mut sum = 0u;
+    for n in range(2u, limit) {
+        if is_prime[n] {
+            sum += n;
+        }
+    }
+    return sum
+}
+
+fn sum_of_primes_below_(limit: uint) -> uint {
+    return sum_of_primes_below5(limit);
 }
 
 pub fn main() {
