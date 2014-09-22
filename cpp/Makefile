@@ -4,8 +4,8 @@ PROBLEM_SOURCES		= $(wildcard problem*.cc)
 PROBLEM_BINARIES	= $(patsubst %.cc, $(BUILD_OUTPUT_DIR)/debug/%, $(PROBLEM_SOURCES)) \
                       $(patsubst %.cc, $(BUILD_OUTPUT_DIR)/release/%, $(PROBLEM_SOURCES))
 
-CC       = g++
-CXXFLAGS = -Wall -Wextra
+CC       = g++-4.9
+CXXFLAGS = -std=c++11 -Wall -Wextra -fdiagnostics-color
 CXXFLAGS_DEBUG = -g
 CXXFLAGS_RELEASE = -O3
 
