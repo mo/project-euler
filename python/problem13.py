@@ -102,4 +102,4 @@ string_with_ints = """37107287533902102798797998220837590246510135740250
 
 
 ints = [int(x) for x in string_with_ints.split("\n")]
-print reduce(lambda x,y: x+y, ints)
+print str(reduce(lambda x, y: x+y, ints))[0:10]
