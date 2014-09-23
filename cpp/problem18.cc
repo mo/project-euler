@@ -6,14 +6,16 @@
 
 using namespace std;
 
-string DEMO_TRIANGLE = R"(
+namespace {
+
+const char* DEMO_TRIANGLE = R"(
     3
     7 4
     2 4 6
     8 5 9 3
 )";
 
-string PROBLEM18_TRIANGLE = R"(
+const char* PROBLEM18_TRIANGLE = R"(
     75
     95 64
     17 47 82
@@ -46,33 +48,37 @@ vector<string> split(const string& str, char delimiter) {
     return items;
 }
 
+/*
 string trim(const string& str)
 {
-    ssize_t str_len = str.size();
-    if (str_len == 0)
-        return "";
-    ssize_t first_nonspace_pos = -1;
-    for (ssize_t i = 0; i < str_len; ++i) {
-        if (!isspace(str[i])) {
-            first_nonspace_pos = i ;
+    auto begin = str.begin();
+    for (; begin != str.end(); ++begin) {
+        if (!isspace(*begin))
             break;
-        }
     }
-    if (first_nonspace_pos == -1)
-        return "";
-    ssize_t last_nonspace_pos = -1;
-    for (ssize_t i = str_len-1 ; i >= 0; --i) {
-        if (!isspace(str[i])) {
-            last_nonspace_pos = i;
+    if (begin == str.end())
+        return string();
+    auto end = str.end()-1;
+    for (; end != str.begin(); --end) {
+        if (!isspace(*end))
             break;
-        }
     }
-    return string(str, first_nonspace_pos, last_nonspace_pos - first_nonspace_pos + 1);
+    return string(begin, end+1);
+}
+*/
+
+string trim(const string& str)
+{
+    auto start = str.find_first_not_of(" \t\n");
+    if (start == string::npos)
+        return string();
+    auto stop = str.find_last_not_of(" \t\n");
+    return string(str, start, stop-start+1);
 }
 
 class Triangle {
 public:
-    Triangle(string& triangle_string) {
+    Triangle(const string& triangle_string) {
         parse_triangle_string(triangle_string, triangle_data_);
     }
     int maximum_path() {
@@ -108,11 +114,16 @@ private:
     vector<vector<int>> triangle_data_;
 };
 
+} // namespace
+
 int main() {
     assert(trim("") == "");
     assert(trim(" ") == "");
     assert(trim("  ") == "");
     assert(trim(" \n\n \t\t ") == "");
+    assert(trim(" abc ") == "abc");
+    assert(trim(" abc    ") == "abc");
+    assert(trim(" a bc    ") == "a bc");
 
     Triangle demo_triangle(DEMO_TRIANGLE);
     assert(demo_triangle.maximum_path() == 23);
