@@ -1,8 +1,9 @@
 #include <vector>
+#include <cassert>
+#include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
-#include <cassert>
 
 using namespace std;
 
@@ -76,6 +77,14 @@ string trim(const string& str)
     return string(str, start, stop-start+1);
 }
 
+string readfile(const string &filepath) {
+    string str;
+    std::ifstream fin(filepath.c_str());
+    getline(fin, str, char(-1));
+    fin.close();
+    return str;
+}
+
 class Triangle {
 public:
     Triangle(const string& triangle_string) {
@@ -83,6 +92,14 @@ public:
     }
     int maximum_path() {
         return maximum_path_from(0, 0);
+    }
+    int maximum_path2() {
+
+        for (size_t row = triangle_data_.size()-1; row-- > 0;)
+            for (size_t column = 0; column < triangle_data_[row].size(); ++column)
+                triangle_data_[row][column] += max(triangle_data_[row+1][column], triangle_data_[row+1][column+1]);
+
+        return triangle_data_[0][0];
     }
 private:
     void parse_triangle_string(const string& triangle_string, vector<vector<int>>& triangle_data) {
@@ -96,6 +113,7 @@ private:
             assert(row_values.size() == row + 1);
             triangle_data.push_back(row_values);
         }
+        assert(triangle_data.size() > 1);
     }
     int maximum_path_from(size_t row, size_t column) {
         assert(row < triangle_data_.size());
@@ -127,8 +145,14 @@ int main() {
 
     Triangle demo_triangle(DEMO_TRIANGLE);
     assert(demo_triangle.maximum_path() == 23);
+    assert(demo_triangle.maximum_path() == demo_triangle.maximum_path2());
 
     Triangle problem18_triangle(PROBLEM18_TRIANGLE);
-    printf("answer = %d\n", problem18_triangle.maximum_path());
+    assert(problem18_triangle.maximum_path() == problem18_triangle.maximum_path2());
+    printf("problem18 answer = %d\n", problem18_triangle.maximum_path2());
+
+    Triangle problem67_triangle(readfile("../data/p067_triangle.txt"));
+    printf("problem67 answer = %d\n", problem67_triangle.maximum_path2());
+
     return 0;
 }
