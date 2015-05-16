@@ -4,10 +4,10 @@
  *
  */
 
-fn prime_factors(mut n: int) -> Vec<int> {
+fn prime_factors(mut n: i64) -> Vec<i64> {
     let mut divisor = 2;
-    let mut factors: Vec<int> = Vec::new();
-    while divisor <= (n as f64).sqrt() as int {
+    let mut factors: Vec<i64> = Vec::new();
+    while divisor <= (n as f64).sqrt() as i64 {
         if n%divisor == 0 {
             factors.push(divisor);
             n = n / divisor;
@@ -34,7 +34,7 @@ mod test {
     fn correct_answer() {
         let factors = prime_factors(600851475143);
         let expected_answer = 6857;
-        let computed_answer: int = *factors.last().unwrap();
+        let computed_answer = *factors.last().unwrap();
         assert_eq!(computed_answer, expected_answer);
     }
 }

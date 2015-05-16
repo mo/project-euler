@@ -1,20 +1,22 @@
-use std::num;
-
-fn is_palindrome(num: int) -> bool {
+fn is_palindrome(num: i64) -> bool {
     let num_str = num.to_string();
-    let num_str_len = num_str.len();
-    for i in range(0, num_str_len/2) {
-        if num_str.as_slice().char_at(i) != num_str.as_slice().char_at(num_str_len-i-1) {
-            return false;
+    let chars_to_check = num_str.len()/2;
+    let mut iter = num_str.as_bytes().iter().take(chars_to_check);
+    let mut rev_iter = num_str.as_bytes().iter().rev().take(chars_to_check);
+    // HACK: In future rust versions, this can probably be replaced by
+    // "return iter == rev_iter"
+    loop {
+        match (iter.next(), rev_iter.next()) {
+            (Some(x), Some(y)) => if x != y { return false },
+            _ => return true,
         }
     }
-    return true;
 }
 
-fn largest_palindrome_product(max_digits: uint) -> int {
+fn largest_palindrome_product(max_digits: u32) -> i64 {
     let mut highest_found = 0;
-    for a in range(1, num::pow(10, max_digits)) {
-        for b in range(1, num::pow(10, max_digits)) {
+    for a in 1..10i64.pow(max_digits) {
+        for b in 1..10i64.pow(max_digits) {
             let prod = a*b;
             if prod > highest_found && is_palindrome(prod) {
                 highest_found = prod
@@ -27,7 +29,7 @@ fn largest_palindrome_product(max_digits: uint) -> int {
 pub fn main() {
     let answer = largest_palindrome_product(2);
     if answer != 9009 {
-        fail!("error: wrong answer");
+        panic!("error: wrong answer");
     }
     let answer = largest_palindrome_product(3);
     println!("largest palindrome made from the product of two 3-digit integers is {}", answer);

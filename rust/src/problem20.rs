@@ -3,20 +3,21 @@ extern crate num;
 use num::bigint::BigUint;
 
 fn to_biguint(num_str: &str) -> BigUint {
-    return from_str::<BigUint>(num_str).unwrap();
+    return num_str.parse::<BigUint>().unwrap();
 }
 
 fn factorial(num: BigUint) -> BigUint {
     if num == to_biguint("1") {
         return to_biguint("1")
     }
-    return num * factorial(num - to_biguint("1"));
+    let num2 = num.clone(); // TODO: avoid this ugly line
+    return num * factorial(num2 - to_biguint("1"));
 }
 
-fn sum_of_digits(num: BigUint) -> uint {
-    let mut sum = 0;
-    for ch in num.to_string().as_slice().chars() {
-        sum += std::char::to_digit(ch, 10).unwrap();
+fn sum_of_digits(num: BigUint) -> u64 {
+    let mut sum = 0u64;
+    for ch in num.to_string().chars() {
+        sum += ch.to_digit(10).unwrap() as u64;
     }
     return sum
 }

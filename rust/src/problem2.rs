@@ -1,7 +1,7 @@
-fn sum_even_fib_less_than(max: int) -> int {
-    let mut prevprev = 1i;
-    let mut prev = 2i;
-    let mut sum = 2i;
+fn sum_even_fib_less_than(max: i64) -> i64 {
+    let mut prevprev = 1;
+    let mut prev = 2;
+    let mut sum = 2;
     loop {
         let current = prevprev + prev;
         if current >= max { break; }

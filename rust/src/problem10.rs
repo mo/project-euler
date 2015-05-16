@@ -1,7 +1,9 @@
+#![feature(step_by)]
+
 #[allow(dead_code)]
-fn is_prime(num: int) -> bool {
-    let sqrt_num = (num as f64).sqrt() as int;
-    for divisor in range(2i, sqrt_num + 1) {
+fn is_prime(num: i32) -> bool {
+    let sqrt_num = (num as f64).sqrt() as i32;
+    for divisor in 2..sqrt_num+1 {
         if num % divisor == 0 {
             return false;
         }
@@ -10,12 +12,12 @@ fn is_prime(num: int) -> bool {
 }
 
 #[allow(dead_code)]
-fn is_prime2(num: int) -> bool {
-    let sqrt_num = (num as f64).sqrt() as int;
+fn is_prime2(num: i32) -> bool {
+    let sqrt_num = (num as f64).sqrt() as i32;
     if num % 2 == 0 {
         return num == 2;
     }
-    for divisor in std::iter::count(3i, 2).take_while(|x| *x <= sqrt_num) {
+    for divisor in (3..).step_by(2).take_while(|x| *x <= sqrt_num) {
         if num % divisor == 0 {
             return false;
         }
@@ -24,15 +26,15 @@ fn is_prime2(num: int) -> bool {
 }
 
 #[allow(dead_code)]
-fn is_prime3(num: int) -> bool {
-    let sqrt_num = (num as f64).sqrt() as int;
+fn is_prime3(num: i32) -> bool {
+    let sqrt_num = (num as f64).sqrt() as i32;
     if num % 2 == 0 {
         return num == 2;
     }
     if num % 3 == 0 {
         return num == 3;
     }
-    for k in std::iter::count(6i, 6).take_while(|x| *x - 1 <= sqrt_num) {
+    for k in (6..).step_by(6).take_while(|x| *x - 1 <= sqrt_num) {
         if num % (k - 1) == 0 {
             return num == k - 1;
         }
@@ -44,15 +46,15 @@ fn is_prime3(num: int) -> bool {
 }
 
 #[allow(dead_code)]
-fn is_prime4(num: int) -> bool {
-    let sqrt_num = (num as f64).sqrt() as int;
-    let first_primes = [2i, 3, 5, 7, 11, 13, 17, 19, 23];
+fn is_prime4(num: i32) -> bool {
+    let sqrt_num = (num as f64).sqrt() as i32;
+    let first_primes = [2, 3, 5, 7, 11, 13, 17, 19, 23];
     for prime in first_primes.iter() {
         if num % *prime == 0 {
             return num == *prime;
         }
     }
-    for divisor in std::iter::count(3i, 2).take_while(|x| *x <= sqrt_num) {
+    for divisor in (3..).step_by(2).take_while(|x| *x <= sqrt_num) {
         if num % divisor == 0 {
             return false;
         }
@@ -60,49 +62,49 @@ fn is_prime4(num: int) -> bool {
     return true;
 }
 
-fn is_prime_(num: int) -> bool {
+fn is_prime_(num: i32) -> bool {
     return is_prime3(num);
 }
 
 #[allow(dead_code)]
-fn sum_of_primes_below(limit: int) -> int {
-    let mut sum = 0i;
-    for n in range(2i, limit) {
-        if is_prime_(n) {
-            sum += n;
+fn sum_of_primes_below(limit: u32) -> u64 {
+    let mut sum = 0u64;
+    for n in 2..limit {
+        if is_prime_(n as i32) {
+            sum += n as u64;
         }
     }
     return sum;
 }
 
 #[allow(dead_code)]
-fn sum_of_primes_below2(limit: int) -> int {
-    let mut prime_sum = 0i;
+fn sum_of_primes_below2(limit: u32) -> u64 {
+    let mut prime_sum = 0u64;
     if limit > 2 {
         prime_sum += 2
     }
     if limit > 3 {
         prime_sum += 3
     }
-    for k in std::iter::count(6i, 6).take_while(|k| *k - 1 < limit) {
+    for k in (6i32..).step_by(6).take_while(|k| *k - 1 < limit as i32) {
         if is_prime_(k - 1) {
-            prime_sum += k - 1
+            prime_sum += (k - 1) as u64
         }
-        if k + 1 < limit && is_prime_(k + 1) {
-            prime_sum += k + 1
+        if k + 1 < limit as i32 && is_prime_(k + 1) {
+            prime_sum += (k + 1) as u64
         }
     }
     return prime_sum;
 }
 
 #[allow(dead_code)]
-fn sum_of_primes_below3(limit: int) -> int {
+fn sum_of_primes_below3(limit: u32) -> u64 {
     if limit <= 2 {
         return 0;
     }
-    let mut prime_counters = vec![(2i, 0i)];
-    let mut current_num = 3i;
-    let mut sum = 2i;
+    let mut prime_counters = vec![(2, 0)];
+    let mut current_num = 3;
+    let mut sum = 2u64;
     while current_num < limit {
         let mut seen_divisor = false;
         for pc in prime_counters.iter_mut() {
@@ -115,7 +117,7 @@ fn sum_of_primes_below3(limit: int) -> int {
         }
         if !seen_divisor {
             prime_counters.push((current_num, 0));
-            sum += current_num;
+            sum += current_num as u64;
         }
         current_num += 1;
         println!("{}% done", 100*current_num/limit);
@@ -124,7 +126,7 @@ fn sum_of_primes_below3(limit: int) -> int {
 }
 
 #[allow(dead_code)]
-fn sum_of_primes_below4(limit: int) -> int {
+fn sum_of_primes_below4(limit: u32) -> u64 {
     if limit <= 2 {
         return 0;
     }
@@ -134,9 +136,9 @@ fn sum_of_primes_below4(limit: int) -> int {
     if limit <= 5 {
         return 5;
     }
-    let mut prime_counters = vec![(2i, 1i), (3i, 1i)];
-    let mut current_num = 5i;
-    let mut sum = 5i;
+    let mut prime_counters = vec![(2, 1), (3, 1)];
+    let mut current_num = 5;
+    let mut sum = 5u64;
     while current_num < limit {
 
         let mut seen_divisor = false;
@@ -150,7 +152,7 @@ fn sum_of_primes_below4(limit: int) -> int {
         }
         if !seen_divisor {
             prime_counters.push((current_num, 0));
-            sum += current_num;
+            sum += current_num as u64;
         }
 
         current_num += 2;
@@ -166,7 +168,7 @@ fn sum_of_primes_below4(limit: int) -> int {
             }
             if !seen_divisor {
                 prime_counters.push((current_num, 0));
-                sum += current_num;
+                sum += current_num as u64;
             }
         }
 
@@ -177,27 +179,26 @@ fn sum_of_primes_below4(limit: int) -> int {
 }
 
 #[allow(dead_code)]
-fn sum_of_primes_below5(limit: uint) -> uint {
-    let mut is_prime = Vec::from_elem(limit, true);
-    let sqrt_num = (limit as f64).sqrt() as uint;
-    for n in range(2u, sqrt_num + 1) {
-        if is_prime[n] {
-            for composite in std::iter::range_step(n*n, limit, n) {
-                // rust will allow "is_prime[composite] = false" later on
-                *is_prime.get_mut(composite) = false;
+fn sum_of_primes_below5(limit: u32) -> u64 {
+    let mut is_prime = vec![true; (limit+1) as usize];
+    let sqrt_num = (limit as f64).sqrt() as u32;
+    for n in 2..sqrt_num+1 {
+        if is_prime[n as usize] {
+            for composite in (n*n..).step_by(n).take_while(|x| *x <= limit) {
+                is_prime[composite as usize] = false;
             }
         }
     }
-    let mut sum = 0u;
-    for n in range(2u, limit) {
-        if is_prime[n] {
-            sum += n;
+    let mut sum = 0u64;
+    for n in 2..limit {
+        if is_prime[n as usize] {
+            sum += n as u64;
         }
     }
     return sum
 }
 
-fn sum_of_primes_below_(limit: uint) -> uint {
+fn sum_of_primes_below_(limit: u32) -> u64 {
     return sum_of_primes_below5(limit);
 }
 
@@ -262,11 +263,11 @@ mod test {
 
     #[test]
     fn correct_answer() {
-        assert_eq!(sum_of_primes_below_(2000000), 142913828922);
+        assert_eq!(sum_of_primes_below_(2000000), 142913828922u64);
     }
 
     // wget -q -O - http://primes.utm.edu/lists/small/1000.txt | cut-first-n-lines 4 | cut-last-n-lines 1 | tr -s  ' ' | cut -c2- | trim-trailing-whitespace | sed 's/ /, /g' | sed 's/$/,/'
-    static first_1000_primes : [int, ..1000] = [2i, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+    static FIRST_1000_PRIMES : [i32; 1000] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
         31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
         73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
         127, 131, 137, 139, 149, 151, 157, 163, 167, 173,
@@ -369,7 +370,7 @@ mod test {
 
     #[test]
     fn check_first_1000_primes() {
-        for prime in first_1000_primes.iter() {
+        for prime in FIRST_1000_PRIMES.iter() {
             assert_eq!(is_prime_(*prime), true);
             if *prime > 2 {
                 assert_eq!(is_prime_(*prime+1), false);
