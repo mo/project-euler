@@ -1,0 +1,26 @@
+{
+    "name": "typescript",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "test:coverage": "jest --coverage"
+    },
+    "keywords": [],
+    "author": "Martin Olsson <martin@minimum.se> (https://mo.github.io)",
+    "license": "MIT",
+    "dependencies": {
+        "ramda": "^0.25.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^23.3.9",
+        "@types/ramda": "^0.25.41",
+        "jest": "^23.6.0",
+        "prettier": "1.15.2",
+        "ts-jest": "^23.10.4",
+        "tslint": "^5.11.0",
+        "tslint-config-prettier": "^1.16.0",
+        "typescript": "^3.1.6"
+    }
+}
